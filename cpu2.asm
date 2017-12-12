@@ -45,7 +45,7 @@ past_header:
   mov cr4, eax
   
   xor eax,eax
-  mov ax,cx
+  mov ax,cs
   shl eax,4
   add pm_entry_vec,eax
 
