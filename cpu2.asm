@@ -56,6 +56,13 @@ past_header:
 [bits 32]
 pm_entry:
 
+  mov ax,0x10
+  mov ds,ax
+  mov es,ax
+  mov fs,ax
+  mov gs,ax
+  mov ss,ax
+
   jmp 0x8:cpu2
 far_jmp_end:
 ap_end:
