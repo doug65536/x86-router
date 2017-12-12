@@ -52,7 +52,7 @@ past_header:
   ; enable paging and protected mode in the cr0 register
   mov eax, 0x80000011
   mov cr0, eax
-  jmp far [cs:pm_entry_vec]
+  o32 jmp far [cs:pm_entry_vec]
 [bits 32]
 pm_entry:
 
