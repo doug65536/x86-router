@@ -17,6 +17,11 @@ ap_entry:
 gdt_pointer:
   dw 23 ; limit (Size of GDT)
   dd gdt_data                  ; base of GDT
+  
+pm_entry_vec:
+  dd pm_entry - ap_entry
+  dw 0x8
+
   align 8
 
 past_header:
@@ -38,20 +43,19 @@ past_header:
   mov eax, cr4
   or eax, 0x00000010
   mov cr4, eax
+  
+  xor eax,eax
+  mov ax,cx
+  shl eax,4
+  add pm_entry_vec,eax
 
   ; enable paging and protected mode in the cr0 register
-  or eax, 0x80000011
+  mov eax, 0x80000011
   mov cr0, eax
-  ;hlt
-  cli
-  [bits 32]
-  jmp 0x8:.ret
-  .ret:
-  hlt
+  jmp far [cs:pm_entry_vec]
+[bits 32]
+pm_entry:
 
-  ;mov eax, cr0
-  ;or al, 1       ; set PE (Protection Enable) bit in CR0 (Control Register 0)
-  ;mov cr0, eax
   jmp 0x8:cpu2
 far_jmp_end:
 ap_end:
